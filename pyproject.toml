@@ -1,0 +1,13 @@
+[project]
+name = "job-recommender-system"
+version = "0.1.0"
+description = "A data-driven job recommendation system that matches candidates with relevant job opportunities based on skills, experience, and preferences. The system uses filtering and similarity-based techniques to analyze user profiles and job listings, providing personalized job recommendations to improve job search efficiency."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "apify-client>=2.4.0",
+    "openai>=2.15.0",
+    "pymupdf>=1.26.7",
+    "python-dotenv>=1.2.1",
+    "streamlit>=1.52.2",
+]
