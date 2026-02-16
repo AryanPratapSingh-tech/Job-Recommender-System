@@ -2,6 +2,9 @@ import fitz
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
+import subprocess
+import requests
+
 #from openai.error import APIConnectionError, APIResponseValidationError, AuthenticationError
 
 #Loading Environment
@@ -34,7 +37,7 @@ def extract_text_from_pdf(pdf_path):
   return text
 
 
-def ask_GPT(prompt, max_tokens=500):
+def ask_GPT(prompt, max_tokens=400):
   response = client.chat.completions.create(
   model="gpt-4o",
   messages=[
@@ -44,12 +47,31 @@ def ask_GPT(prompt, max_tokens=500):
   max_tokens=max_tokens
     )  
   return response.choices[0].message.content.strip()
+'''
+
+def ask_llm(prompt, model="llama3"):
+  process = subprocess.run(
+      ["ollama", "run", model],
+      input=prompt,
+      text=True,
+      capture_output=True
+  )
+  return process.stdout.strip()
 
 
+import google.generativeai as genai
+
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
+def ask_Gemini(prompt):
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    response = client.models.generate_content(
+    model="gemini-3-flash-preview", contents="Explain how AI works in a few words"
+)
+    return response.text
 
 
-
-
+'''
 
 
 
