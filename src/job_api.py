@@ -1,43 +1,57 @@
-from apify_client import ApifyClient
-import os
-from dotenv import load_dotenv 
-
-load_dotenv()
-
-apify_client = ApifyClient(os.getenv("APIFY_API_TOKEN"))
-
-
-
-#Method to fetch linkedIn Jobs
-def fetch_LinkedIn_Jobs(search_query, location = "India", rows=60):
-
-  run_input = {
-    "title" : search_query,
-    "location" : location,
-    "rows" : rows,
-    "proxy": {
-      "useApifyProxy": True,
-      "apifyProxyGroups": ["RESIDENTIAL"]
+import requests
+ 
+ 
+def fetch_LinkedIn_Jobs(keywords: str, rows: int = 10) -> list:
+    """Fetch jobs from LinkedIn via JSearch RapidAPI (free tier: 200 req/month)."""
+    url = "https://jsearch.p.rapidapi.com/search"
+    headers = {
+        "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY",   # <- replace with your free key
+        "X-RapidAPI-Host": "jsearch.p.rapidapi.com"
     }
-  }
-
-  run = apify_client.actor("BHzefUZlZRKWxkTck").call(run_input=run_input)
-  jobs = list(apify_client.dataset(run["defaultDatasetId"]).iterate_items())
-  return jobs
-  
-
-
-
-def fetch_Naukari_Jobs(search_query, location="India", rows=60):
-
-  run_input = {
-    "keyword": search_query,
-    "maxJobs": 60,
-    "freshness": "all",
-    "sortBy": "relevance",
-    "experience" : "all",
-  }
-
-  run = apify_client.actor("wsrn5gy5C4EDeYCcD").call(run_input=run_input)
-  jobs = list(apify_client.dataset(run["defaultDatasetId"]).iterate_items())
-  return jobs
+    params = {
+        "query": keywords + " site:linkedin.com",
+        "num_pages": "1",
+        "page": "1"
+    }
+    try:
+        response = requests.get(url, headers=headers, params=params, timeout=10)
+        data = response.json()
+        jobs = []
+        for item in data.get("data", [])[:rows]:
+            jobs.append({
+                "title": item.get("job_title", "N/A"),
+                "companyName": item.get("employer_name", "N/A"),
+                "location": item.get("job_city", "") + ", " + item.get("job_country", ""),
+                "link": item.get("job_apply_link", "#"),
+            })
+        return jobs
+    except Exception as e:
+        return []
+ 
+ 
+def fetch_Naukari_Jobs(keywords: str, rows: int = 10) -> list:
+    """Fetch jobs from Naukri via JSearch RapidAPI filtered to India."""
+    url = "https://jsearch.p.rapidapi.com/search"
+    headers = {
+        "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY",   # <- replace with your free key
+        "X-RapidAPI-Host": "jsearch.p.rapidapi.com"
+    }
+    params = {
+        "query": keywords + " jobs India",
+        "num_pages": "1",
+        "page": "1"
+    }
+    try:
+        response = requests.get(url, headers=headers, params=params, timeout=10)
+        data = response.json()
+        jobs = []
+        for item in data.get("data", [])[:rows]:
+            jobs.append({
+                "title": item.get("job_title", "N/A"),
+                "companyName": item.get("employer_name", "N/A"),
+                "location": item.get("job_city", "") + ", " + item.get("job_country", ""),
+                "url": item.get("job_apply_link", "#"),
+            })
+        return jobs
+    except Exception as e:
+        return []
