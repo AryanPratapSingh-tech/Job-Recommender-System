@@ -1,12 +1,12 @@
 import fitz 
 import os
 from dotenv import load_dotenv
-from openai import OpenAI
+#from openai import OpenAI
 import subprocess
 import requests
 
 #from openai.error import APIConnectionError, APIResponseValidationError, AuthenticationError
-
+'''
 #Loading Environment
 load_dotenv()
 #Loading OpenAI API keys from .env
@@ -58,7 +58,7 @@ def ask_llm(prompt, model="llama3"):
   )
   return process.stdout.strip()
 
-
+'''
 import google.generativeai as genai
 
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
@@ -70,9 +70,7 @@ def ask_Gemini(prompt):
 )
     return response.text
 
-
 '''
-
 
 
 
