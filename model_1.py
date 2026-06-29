@@ -88,25 +88,25 @@ st.markdown("""
 # ── Hero header ───────────────────────────────────────────────────────────────
 st.markdown("<div class='hero-title'>🤖 AI Job Recommender</div>", unsafe_allow_html=True)
 st.markdown(
-    "<div class='hero-sub'>Upload your résumé · Get AI-powered insights · Discover matching jobs — all free, all local.</div>",
+    "<div class='hero-sub'>Upload your resume · Get AI-powered insights · Discover matching jobs — all free, all local.</div>",
     unsafe_allow_html=True
 )
 st.markdown("---")
  
 # ── File upload ───────────────────────────────────────────────────────────────
-upload_file = st.file_uploader("📄 Upload your résumé (PDF only)", type=["pdf"])
+upload_file = st.file_uploader("📄 Upload your resume (PDF only)", type=["pdf"])
  
 # ── Resume processing ─────────────────────────────────────────────────────────
 if upload_file:
  
-    with st.spinner("🔍 Extracting text from your résumé..."):
+    with st.spinner("🔍 Extracting text from your resume..."):
         resume_text = extract_text_from_pdf(pdf_path=upload_file)
  
     if not resume_text:
         st.error("Could not extract text from the PDF. Make sure it is not scanned/image-only.")
         st.stop()
  
-    with st.spinner("🧠 Summarising your résumé with Ollama..."):
+    with st.spinner("🧠 Summarising your resume..."):
         summary = Ollama_action(
             f"Summarize this resume highlighting key skills, education and experience in clear bullet points:\n\n{resume_text}",
             max_tokens=500
@@ -124,7 +124,7 @@ if upload_file:
             max_tokens=400
         )
  
-    st.success("✅ Résumé analysis complete!")
+    st.success("✅ Resume analysis complete!")
  
     # ── Results grid ──────────────────────────────────────────────────────────
     st.markdown("---")
