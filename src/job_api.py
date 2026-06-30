@@ -5,7 +5,7 @@ def fetch_LinkedIn_Jobs(keywords: str, rows: int = 10) -> list:
     """Fetch jobs from LinkedIn via JSearch RapidAPI (free tier: 200 req/month)."""
     url = "https://jsearch.p.rapidapi.com/search"
     headers = {
-        "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY",   # <- replace with your free key
+        "X-RapidAPI-Key": "baa4f216a3msh3ca4dd28a0e2891p1fff79jsne0a4f227d499",   # <- replace with your free key
         "X-RapidAPI-Host": "jsearch.p.rapidapi.com"
     }
     params = {
@@ -33,7 +33,7 @@ def fetch_Naukari_Jobs(keywords: str, rows: int = 10) -> list:
     """Fetch jobs from Naukri via JSearch RapidAPI filtered to India."""
     url = "https://jsearch.p.rapidapi.com/search"
     headers = {
-        "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY",   # <- replace with your free key
+        "X-RapidAPI-Key": "baa4f216a3msh3ca4dd28a0e2891p1fff79jsne0a4f227d499",   # <- replace with your free key
         "X-RapidAPI-Host": "jsearch.p.rapidapi.com"
     }
     params = {
